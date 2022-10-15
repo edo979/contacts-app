@@ -2,7 +2,7 @@ import localforage from 'localforage'
 import { matchSorter } from 'match-sorter'
 import sortBy from 'sort-by'
 
-type Contact = {
+export type Contact = {
   id: string
   createdAt: number
   first?: string
@@ -13,7 +13,7 @@ type Contact = {
   favorite?: boolean
 }
 
-export async function getContacts(query: string): Promise<Contact[]> {
+export async function getContacts(query?: string): Promise<Contact[]> {
   let contacts: Contact[] | null = await localforage.getItem('contacts')
 
   if (!contacts) contacts = []
@@ -23,10 +23,10 @@ export async function getContacts(query: string): Promise<Contact[]> {
   return contacts.sort(sortBy('last', 'createdAt'))
 }
 
-export async function createFunction(): Promise<Contact[]> {
+export async function createContact(): Promise<Contact[]> {
   const id = Math.random().toString(36).substring(2, 9)
   const contact = { id, createdAt: Date.now() }
-  const contacts = []
+  const contacts = await getContacts()
   contacts.unshift(contact)
 
   await set(contacts)

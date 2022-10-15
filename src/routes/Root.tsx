@@ -1,22 +1,50 @@
+import { useLoaderData, Form } from 'react-router-dom'
+import { createContact, getContacts, Contact } from '../model/contacts'
+
+type LoaderData = {
+  contacts: Contact[]
+}
+
+export async function loader() {
+  const contacts = await getContacts()
+  return { contacts }
+}
+
+export async function action() {
+  await createContact()
+}
+
 export function Root() {
+  const { contacts } = useLoaderData() as LoaderData
+
   return (
     <div className="container">
       <div className="row">
         <div className="col-4 bg-light p-0 min-vh-100 d-flex flex-column">
           <div className="search-form mt-3 pb-3 border-bottom">
-            <form className="d-flex mx-3" role="search">
-              <input
-                className="form-control me-2 shadow-sm"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                name="q"
-              />
-              <button className="btn btn-primary shadow-sm">New</button>
-            </form>
+            <div className="mx-3 d-flex gap-2">
+              <Form role="search">
+                <input
+                  className="form-control me-2 shadow-sm"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  name="q"
+                />
+              </Form>
+              <Form method="post">
+                <button className="btn btn-primary shadow-sm" type="submit">
+                  New
+                </button>
+              </Form>
+            </div>
           </div>
 
-          <div className="contacts"></div>
+          <div className="contacts">
+            {contacts.map((contact) => (
+              <li key={contact.id}>{contact.first}</li>
+            ))}
+          </div>
           <header className="mt-auto border-top py-3 d-flex align-items-center gap-3 justify-content-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
