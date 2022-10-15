@@ -41,9 +41,25 @@ export function Root() {
           </div>
 
           <div className="contacts">
-            {contacts.map((contact) => (
-              <li key={contact.id}>{contact.first}</li>
-            ))}
+            <nav>
+              {contacts.length ? (
+                <ul className="list-group list-group-flush mx-3 my-3">
+                  {contacts.map((contact) => (
+                    <li key={contact.id} className="list-group-item">
+                      {contact.first || contact.last ? (
+                        <>
+                          {contact.first} {contact.last}
+                        </>
+                      ) : (
+                        <i>No Name</i>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <i>No Cotacts to show</i>
+              )}
+            </nav>
           </div>
           <header className="mt-auto border-top py-3 d-flex align-items-center gap-3 justify-content-center">
             <svg
