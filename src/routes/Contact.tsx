@@ -1,6 +1,11 @@
 import { Form, Params, useLoaderData } from 'react-router-dom'
 import { getContact, Contact as ContactType } from '../model/contacts'
 
+export async function loader({ params }: { params: Params<string> }) {
+  const contact = await getContact(params.contactId)
+  return { contact }
+}
+
 export function Contact() {
   const contact = useLoaderData() as ContactType
 
@@ -34,9 +39,4 @@ export function Contact() {
       </div>
     </section>
   )
-}
-
-export async function loader({ params }: { params: Params<string> }) {
-  const contact = await getContact(params.contactId)
-  return { contact }
 }

@@ -1,6 +1,9 @@
-import { Form } from 'react-router-dom'
+import { Form, useLoaderData } from 'react-router-dom'
+import { Contact } from '../model/contacts'
 
 export function EditContact() {
+  const contact = useLoaderData() as Contact
+
   return (
     <Form>
       <h2>Edit Contact:</h2>
@@ -15,6 +18,7 @@ export function EditContact() {
             id="first"
             name="first"
             placeholder="First"
+            defaultValue={contact.first}
           />
         </div>
         <div className="col-sm-5">
@@ -24,6 +28,7 @@ export function EditContact() {
             id="second"
             name="second"
             placeholder="Last"
+            defaultValue={contact.last}
           />
         </div>
       </div>
@@ -39,6 +44,7 @@ export function EditContact() {
             id="twiter"
             name="twiter"
             placeholder="@jack"
+            defaultValue={contact.twitter}
           />
         </div>
       </div>
@@ -54,6 +60,7 @@ export function EditContact() {
             id="avatar"
             name="avatar"
             placeholder="https://example.com/avatar.jpg"
+            defaultValue={contact.avatar}
           />
         </div>
       </div>
@@ -68,6 +75,7 @@ export function EditContact() {
             rows={5}
             name="notes"
             id="notes"
+            defaultValue={contact.notes}
           />
         </div>
       </div>
