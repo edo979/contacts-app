@@ -24,7 +24,7 @@ export async function getContacts(query?: string): Promise<Contact[]> {
   return contacts
 }
 
-export async function createContact(): Promise<Contact[]> {
+export async function createContact(): Promise<Contact> {
   const id = Math.random().toString(36).substring(2, 9)
   const contact = { id, createdAt: Date.now() }
   const contacts = await getContacts()
@@ -32,7 +32,7 @@ export async function createContact(): Promise<Contact[]> {
 
   await set(contacts)
 
-  return contacts
+  return contact
 }
 
 export async function getContact(id?: string): Promise<Contact | null> {

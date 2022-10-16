@@ -13,7 +13,7 @@ export function Contact() {
   return (
     <section className="hstack gap-4 ms-4">
       <img src={contact.avatar} className="rounded" />
-      <div className="vstack gap-3">
+      <div className="vstack justify-content-center">
         <h2 className="m-0">
           {contact.first || contact.last ? (
             <>
@@ -23,7 +23,7 @@ export function Contact() {
             <i>No Name</i>
           )}
         </h2>
-        <p className="lead text-primary">{contact.twitter}</p>
+        <p className="lead text-primary m-0">{contact.twitter}</p>
         <p>{contact.notes}</p>
         <div className="hstack gap-2">
           <Form action="edit">

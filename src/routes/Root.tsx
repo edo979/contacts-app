@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, redirect } from 'react-router-dom'
 import { useLoaderData, Form, Outlet } from 'react-router-dom'
 import { createContact, getContacts, Contact } from '../model/contacts'
 
@@ -12,7 +12,8 @@ export async function loader() {
 }
 
 export async function action() {
-  await createContact()
+  const contact = await createContact()
+  return redirect(`/contacts/${contact.id}/edit`)
 }
 
 export function Root() {
