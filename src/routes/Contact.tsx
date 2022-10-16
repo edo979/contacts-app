@@ -7,11 +7,12 @@ export async function loader({ params }: { params: Params<string> }) {
 }
 
 export function Contact() {
-  const contact = useLoaderData() as ContactType
+  const { contact } = useLoaderData() as { contact: ContactType }
+  console.log(contact)
 
   return (
     <section className="hstack gap-4 ms-4">
-      <img src="http://placekitten.com/200/200" className="rounded" />
+      <img src={contact.avatar} className="rounded" />
       <div className="vstack gap-3">
         <h2 className="m-0">
           {contact.first || contact.last ? (
@@ -22,8 +23,8 @@ export function Contact() {
             <i>No Name</i>
           )}
         </h2>
-        <p className="lead text-primary">Contact</p>
-        <p>contact</p>
+        <p className="lead text-primary">{contact.twitter}</p>
+        <p>{contact.notes}</p>
         <div className="hstack gap-2">
           <Form action="edit">
             <button className="btn btn-outline-primary" type="submit">

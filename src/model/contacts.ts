@@ -44,6 +44,21 @@ export async function getContact(id?: string): Promise<Contact | null> {
   return contact ?? null
 }
 
+export async function updateContact(
+  id: string,
+  updates: { [k: string]: FormDataEntryValue }
+): Promise<Contact | null> {
+  const contacts = await getContacts()
+  const contact = contacts.find((contact) => contact.id === id)
+
+  if (!contact) throw new Error('No contact found for: ' + id)
+
+  Object.assign(contact, updates)
+  set(contacts)
+
+  return contact
+}
+
 function set(contacts: Contact[]): Promise<Contact[]> {
   return localforage.setItem('contacts', contacts)
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Contact, loader as contactLoader } from './routes/Contact'
-import { EditContact } from './routes/EditContact'
+import { EditContact, action as editAction } from './routes/EditContact'
 import { Index } from './routes/Index'
 import { Root, loader as rootLoader, action as rootAction } from './routes/Root'
 import './scss/style.scss'
@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       {
         path: '/contacts/:contactId/edit',
         loader: contactLoader,
+        action: editAction,
         element: <EditContact />,
       },
     ],

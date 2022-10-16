@@ -1,11 +1,28 @@
-import { Form, useLoaderData } from 'react-router-dom'
-import { Contact } from '../model/contacts'
+import { Form, useLoaderData, Params, redirect } from 'react-router-dom'
+import { Contact, updateContact } from '../model/contacts'
+
+export async function action({
+  request,
+  params,
+}: {
+  params: Params<string>
+  request: Request
+}) {
+  const formData = await request.formData()
+  const updates = Object.fromEntries(formData)
+
+  if (params.contactId) {
+    await updateContact(params.contactId, updates)
+  }
+
+  return redirect(`/contacts/${params.contactId}`)
+}
 
 export function EditContact() {
-  const contact = useLoaderData() as Contact
+  const { contact } = useLoaderData() as { contact: Contact }
 
   return (
-    <Form>
+    <Form method="post">
       <h2>Edit Contact:</h2>
       <div className="row">
         <label htmlFor="first" className="col-sm-2 col-form-label">
@@ -25,8 +42,8 @@ export function EditContact() {
           <input
             type="text"
             className="form-control"
-            id="second"
-            name="second"
+            id="last"
+            name="last"
             placeholder="Last"
             defaultValue={contact.last}
           />
@@ -34,15 +51,15 @@ export function EditContact() {
       </div>
 
       <div className="row mt-3">
-        <label className="col-sm-2 col-form-label" htmlFor="twiter">
+        <label className="col-sm-2 col-form-label" htmlFor="twitter">
           Twiter
         </label>
         <div className="col-sm-10">
           <input
             type="text"
             className="form-control"
-            id="twiter"
-            name="twiter"
+            id="twitter"
+            name="twitter"
             placeholder="@jack"
             defaultValue={contact.twitter}
           />
@@ -82,7 +99,9 @@ export function EditContact() {
 
       <div className="row mt-3">
         <div className="col-sm-10 offset-sm-2">
-          <button className="btn btn-outline-primary">Save</button>
+          <button className="btn btn-outline-primary" type="submit">
+            Save
+          </button>
           <button className="btn btn-outline-dark ms-2">Cancel</button>
         </div>
       </div>
