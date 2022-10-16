@@ -8,7 +8,6 @@ export async function loader({ params }: { params: Params<string> }) {
 
 export function Contact() {
   const { contact } = useLoaderData() as { contact: ContactType }
-  console.log(contact)
 
   return (
     <section className="hstack gap-4 ms-4">
@@ -31,7 +30,15 @@ export function Contact() {
               edit
             </button>
           </Form>
-          <Form>
+          <Form
+            method="post"
+            action="destroy"
+            onSubmit={(event) => {
+              if (!confirm('Please confirm you want to delete this contact?')) {
+                event.preventDefault()
+              }
+            }}
+          >
             <button className="btn btn-outline-danger ms-1" type="submit">
               Delete
             </button>

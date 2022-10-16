@@ -54,9 +54,23 @@ export async function updateContact(
   if (!contact) throw new Error('No contact found for: ' + id)
 
   Object.assign(contact, updates)
-  set(contacts)
+  await set(contacts)
 
   return contact
+}
+
+export async function deleteContact(id: string): Promise<boolean> {
+  const contacts = await getContacts()
+  const index = contacts.findIndex((contact) => contact.id === id)
+
+  if (index > -1) {
+    contacts.splice(index, 1)
+    await set(contacts)
+
+    return true
+  }
+
+  return false
 }
 
 function set(contacts: Contact[]): Promise<Contact[]> {

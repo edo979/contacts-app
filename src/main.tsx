@@ -5,6 +5,7 @@ import { Contact, loader as contactLoader } from './routes/Contact'
 import { EditContact, action as editAction } from './routes/EditContact'
 import { Index } from './routes/Index'
 import { Root, loader as rootLoader, action as rootAction } from './routes/Root'
+import { action as deleteAction } from './routes/Destroy'
 import './scss/style.scss'
 
 const router = createBrowserRouter([
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
         loader: contactLoader,
         action: editAction,
         element: <EditContact />,
+      },
+      {
+        path: 'contacts/:contactId/destroy',
+        action: deleteAction,
+        errorElement: <p>Error deleting contact.</p>,
       },
     ],
   },
