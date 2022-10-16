@@ -1,6 +1,6 @@
 import localforage from 'localforage'
 import { matchSorter } from 'match-sorter'
-import sortBy from 'sort-by'
+//import sortBy from 'sort-by'
 
 export type Contact = {
   id: string
@@ -20,7 +20,8 @@ export async function getContacts(query?: string): Promise<Contact[]> {
   if (query) {
     contacts = matchSorter(contacts, query, { keys: ['first', 'last'] })
   }
-  return contacts.sort(sortBy('last', 'createdAt'))
+  //return contacts.sort(sortBy('last', 'createdAt'))
+  return contacts
 }
 
 export async function createContact(): Promise<Contact[]> {
@@ -32,6 +33,15 @@ export async function createContact(): Promise<Contact[]> {
   await set(contacts)
 
   return contacts
+}
+
+export async function getContact(id?: string): Promise<Contact | null> {
+  if (!id) return null
+
+  const contacts: Contact[] = await getContacts()
+  const contact = contacts.find((contact) => contact.id === id)
+
+  return contact ?? null
 }
 
 function set(contacts: Contact[]): Promise<Contact[]> {
