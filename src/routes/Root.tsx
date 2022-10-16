@@ -48,13 +48,16 @@ export function Root() {
                   <NavLink
                     to={`/contacts/${contact.id}`}
                     key={contact.id}
-                    className={({ isActive, isPending }) =>
+                    className={({ isActive, isPending }) => {
+                      let linkActivClass = ''
                       isActive
-                        ? 'list-group-item list-group-item-action active'
+                        ? (linkActivClass = 'active')
                         : isPending
-                        ? 'list-group-item list-group-item-action disabled'
-                        : 'list-group-item list-group-item-action'
-                    }
+                        ? (linkActivClass = 'disabled')
+                        : ''
+
+                      return `list-group-item list-group-item-action ${linkActivClass}`
+                    }}
                   >
                     {contact.first || contact.last ? (
                       <>
@@ -83,7 +86,7 @@ export function Root() {
           </header>
         </div>
 
-        <div className="col-8">
+        <div className="col-8 mt-3">
           <Outlet />
         </div>
       </div>
