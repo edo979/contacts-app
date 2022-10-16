@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ErrorPage } from './routes/ErrorPage'
 import { Contact, loader as contactLoader } from './routes/Contact'
 import { EditContact, action as editAction } from './routes/EditContact'
 import { Index } from './routes/Index'
@@ -11,26 +12,32 @@ import './scss/style.scss'
 const router = createBrowserRouter([
   {
     path: '/',
+    errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
     element: <Root />,
     children: [
-      { index: true, element: <Index /> },
       {
-        path: '/contacts/:contactId',
-        loader: contactLoader,
-        element: <Contact />,
-      },
-      {
-        path: '/contacts/:contactId/edit',
-        loader: contactLoader,
-        action: editAction,
-        element: <EditContact />,
-      },
-      {
-        path: 'contacts/:contactId/destroy',
-        action: deleteAction,
-        errorElement: <p>Error deleting contact.</p>,
+        errorElement: <ErrorPage />,
+        children: [
+          { index: true, element: <Index /> },
+          {
+            path: '/contacts/:contactId',
+            loader: contactLoader,
+            element: <Contact />,
+          },
+          {
+            path: '/contacts/:contactId/edit',
+            loader: contactLoader,
+            action: editAction,
+            element: <EditContact />,
+          },
+          {
+            path: 'contacts/:contactId/destroy',
+            action: deleteAction,
+            errorElement: <p>Error deleting contact.</p>,
+          },
+        ],
       },
     ],
   },
