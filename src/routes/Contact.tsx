@@ -1,4 +1,4 @@
-import { Params, useLoaderData } from 'react-router-dom'
+import { Form, Params, useLoaderData } from 'react-router-dom'
 import { getContact, Contact as ContactType } from '../model/contacts'
 
 export function Contact() {
@@ -19,9 +19,17 @@ export function Contact() {
         </h2>
         <p className="lead text-primary">Contact</p>
         <p>contact</p>
-        <div>
-          <button className="btn btn-outline-primary">edit</button>{' '}
-          <button className="btn btn-outline-danger ms-1">Delete</button>
+        <div className="hstack gap-2">
+          <Form action="edit">
+            <button className="btn btn-outline-primary" type="submit">
+              edit
+            </button>
+          </Form>
+          <Form>
+            <button className="btn btn-outline-danger ms-1" type="submit">
+              Delete
+            </button>
+          </Form>
         </div>
       </div>
     </section>
