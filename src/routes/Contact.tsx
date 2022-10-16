@@ -26,7 +26,7 @@ export function Contact() {
         <p>{contact.notes}</p>
         <div className="hstack gap-2">
           <Form action="edit">
-            <button className="btn btn-outline-primary" type="submit">
+            <button className="btn btn-outline-primary btn-sm" type="submit">
               edit
             </button>
           </Form>
@@ -39,7 +39,10 @@ export function Contact() {
               }
             }}
           >
-            <button className="btn btn-outline-danger ms-1" type="submit">
+            <button
+              className="btn btn-outline-danger ms-1 btn-sm"
+              type="submit"
+            >
               Delete
             </button>
           </Form>
