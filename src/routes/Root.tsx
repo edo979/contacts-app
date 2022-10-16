@@ -1,4 +1,5 @@
-import { useLoaderData, Form } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { useLoaderData, Form, Outlet } from 'react-router-dom'
 import { createContact, getContacts, Contact } from '../model/contacts'
 
 type LoaderData = {
@@ -41,25 +42,33 @@ export function Root() {
           </div>
 
           <div className="contacts">
-            <nav>
-              {contacts.length ? (
-                <ul className="list-group list-group-flush mx-3 my-3">
-                  {contacts.map((contact) => (
-                    <li key={contact.id} className="list-group-item">
-                      {contact.first || contact.last ? (
-                        <>
-                          {contact.first} {contact.last}
-                        </>
-                      ) : (
-                        <i>No Name</i>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <i>No Cotacts to show</i>
-              )}
-            </nav>
+            {contacts.length ? (
+              <nav className="list-group mx-3 my-3">
+                {contacts.map((contact) => (
+                  <NavLink
+                    to={`/contacts/${contact.id}`}
+                    key={contact.id}
+                    className={({ isActive, isPending }) =>
+                      isActive
+                        ? 'list-group-item list-group-item-action active'
+                        : isPending
+                        ? 'list-group-item list-group-item-action disabled'
+                        : 'list-group-item list-group-item-action'
+                    }
+                  >
+                    {contact.first || contact.last ? (
+                      <>
+                        {contact.first} {contact.last}
+                      </>
+                    ) : (
+                      <i>No Name</i>
+                    )}
+                  </NavLink>
+                ))}
+              </nav>
+            ) : (
+              <i>No Cotacts to show</i>
+            )}
           </div>
           <header className="mt-auto border-top py-3 d-flex align-items-center gap-3 justify-content-center">
             <svg
@@ -74,7 +83,9 @@ export function Root() {
           </header>
         </div>
 
-        <div className="col-8"></div>
+        <div className="col-8">
+          <Outlet />
+        </div>
       </div>
     </div>
   )

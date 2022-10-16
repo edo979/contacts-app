@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Contact } from './routes/Contact'
+import { Index } from './routes/Index'
 import { Root, loader as rootLoader, action as rootAction } from './routes/Root'
 import './scss/style.scss'
 
@@ -10,6 +12,10 @@ const router = createBrowserRouter([
     loader: rootLoader,
     action: rootAction,
     element: <Root />,
+    children: [
+      { index: true, element: <Index /> },
+      { path: '/contacts/:contactId', element: <Contact /> },
+    ],
   },
 ])
 
