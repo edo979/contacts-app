@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { NavLink, redirect } from 'react-router-dom'
+import { NavLink, redirect, useSubmit } from 'react-router-dom'
 import { useLoaderData, Form, Outlet } from 'react-router-dom'
 import { createContact, getContacts, Contact } from '../model/contacts'
 
@@ -23,6 +23,7 @@ export async function action() {
 
 export function Root() {
   const { contacts, q } = useLoaderData() as LoaderData
+  const submit = useSubmit()
 
   useEffect(() => {
     const search = document.getElementById('q') as HTMLInputElement
@@ -44,6 +45,12 @@ export function Root() {
                   id="q"
                   name="q"
                   defaultValue={q}
+                  onChange={(event) => {
+                    const isFirstSearch = q == null
+                    submit(event.currentTarget.form, {
+                      replace: !isFirstSearch,
+                    })
+                  }}
                 />
               </Form>
               <Form method="post">
