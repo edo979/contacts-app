@@ -83,7 +83,9 @@ export function Root() {
                 ))}
               </nav>
             ) : (
-              <i>No Cotacts to show</i>
+              <i className="mx-3 mt-3 d-block text-center">
+                No Cotacts to show
+              </i>
             )}
           </div>
           <header className="mt-auto border-top py-3 d-flex align-items-center gap-3 justify-content-center">
