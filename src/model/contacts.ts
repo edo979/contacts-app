@@ -26,7 +26,7 @@ export async function getContacts(query: string | null): Promise<Contact[]> {
 export async function createContact(): Promise<Contact> {
   const id = Math.random().toString(36).substring(2, 9)
   const contact = { id, createdAt: Date.now() }
-  const contacts = await getContacts()
+  const contacts = await getContacts(null)
   contacts.unshift(contact)
 
   await set(contacts)
@@ -37,7 +37,7 @@ export async function createContact(): Promise<Contact> {
 export async function getContact(id?: string): Promise<Contact | null> {
   if (!id) return null
 
-  const contacts: Contact[] = await getContacts()
+  const contacts: Contact[] = await getContacts(null)
   const contact = contacts.find((contact) => contact.id === id)
 
   return contact ?? null
@@ -45,9 +45,9 @@ export async function getContact(id?: string): Promise<Contact | null> {
 
 export async function updateContact(
   id: string,
-  updates: { [k: string]: FormDataEntryValue }
+  updates: { [k: string]: FormDataEntryValue | boolean }
 ): Promise<Contact | null> {
-  const contacts = await getContacts()
+  const contacts = await getContacts(null)
   const contact = contacts.find((contact) => contact.id === id)
 
   if (!contact) throw new Error('No contact found for: ' + id)
@@ -59,7 +59,7 @@ export async function updateContact(
 }
 
 export async function deleteContact(id: string): Promise<boolean> {
-  const contacts = await getContacts()
+  const contacts = await getContacts(null)
   const index = contacts.findIndex((contact) => contact.id === id)
 
   if (index > -1) {

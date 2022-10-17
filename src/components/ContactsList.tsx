@@ -22,7 +22,7 @@ export function ContactsList({ contacts }: ContactsListProps) {
                   ? (linkActivClass = 'disabled list-group-item-secondary')
                   : ''
 
-                return `list-group-item list-group-item-action ${linkActivClass}`
+                return `list-group-item list-group-item-action d-flex justify-content-between ${linkActivClass}`
               }}
             >
               {contact.first || contact.last ? (
@@ -32,6 +32,7 @@ export function ContactsList({ contacts }: ContactsListProps) {
               ) : (
                 <i>No Name</i>
               )}
+              <span>{contact.favorite && '★'}</span>
             </NavLink>
           ))}
         </nav>
