@@ -75,3 +75,7 @@ export async function deleteContact(id: string): Promise<boolean> {
 function set(contacts: Contact[]): Promise<Contact[]> {
   return localforage.setItem('contacts', contacts)
 }
+
+export async function timeOut(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 1000))
+}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { NavLink, redirect, useSubmit } from 'react-router-dom'
+import { NavLink, redirect, useNavigation, useSubmit } from 'react-router-dom'
 import { useLoaderData, Form, Outlet } from 'react-router-dom'
-import { createContact, getContacts, Contact } from '../model/contacts'
+import { createContact, getContacts, Contact, timeOut } from '../model/contacts'
 
 type LoaderData = {
   contacts: Contact[]
@@ -11,6 +11,9 @@ type LoaderData = {
 export async function loader({ request }: { request: Request }) {
   const url = new URL(request.url)
   const q = url.searchParams.get('q')
+
+  await timeOut()
+
   const contacts = await getContacts(q)
 
   return { contacts, q }
@@ -24,6 +27,10 @@ export async function action() {
 export function Root() {
   const { contacts, q } = useLoaderData() as LoaderData
   const submit = useSubmit()
+  const navigation = useNavigation()
+  const searching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has('q')
 
   useEffect(() => {
     const search = document.getElementById('q') as HTMLInputElement
@@ -36,9 +43,19 @@ export function Root() {
         <div className="col-4 bg-light p-0 min-vh-100 d-flex flex-column">
           <div className="search-form mt-3 pb-3 border-bottom">
             <div className="mx-3 d-flex gap-2">
-              <Form role="search">
+              <Form role="search" className="position-relative">
+                <div
+                  className={`spinner-grow spinner-grow-sm position-absolute ${
+                    !searching && 'd-none'
+                  }`}
+                  role="status"
+                  style={{ top: '12px', left: '5px' }}
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+
                 <input
-                  className="form-control me-2 shadow-sm"
+                  className="form-control me-2 shadow-sm ps-4"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
