@@ -12,15 +12,15 @@ import './scss/style.scss'
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <Root />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
-    element: <Root />,
     children: [
+      { index: true, element: <Index /> },
       {
         errorElement: <ErrorPage />,
         children: [
-          { index: true, element: <Index /> },
           {
             path: '/contacts/:contactId',
             loader: contactLoader,

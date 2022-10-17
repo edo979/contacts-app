@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { NavLink, redirect, useNavigation, useSubmit } from 'react-router-dom'
+import { redirect, useNavigation, useSubmit } from 'react-router-dom'
 import { useLoaderData, Form, Outlet } from 'react-router-dom'
 import { ContactsList } from '../components/ContactsList'
 import { Spiner } from '../components/Spiner'
