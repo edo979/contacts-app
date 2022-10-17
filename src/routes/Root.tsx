@@ -1,14 +1,19 @@
+import { useEffect } from 'react'
 import { NavLink, redirect } from 'react-router-dom'
 import { useLoaderData, Form, Outlet } from 'react-router-dom'
 import { createContact, getContacts, Contact } from '../model/contacts'
 
 type LoaderData = {
   contacts: Contact[]
+  q: string
 }
 
-export async function loader() {
-  const contacts = await getContacts()
-  return { contacts }
+export async function loader({ request }: { request: Request }) {
+  const url = new URL(request.url)
+  const q = url.searchParams.get('q')
+  const contacts = await getContacts(q)
+
+  return { contacts, q }
 }
 
 export async function action() {
@@ -17,7 +22,12 @@ export async function action() {
 }
 
 export function Root() {
-  const { contacts } = useLoaderData() as LoaderData
+  const { contacts, q } = useLoaderData() as LoaderData
+
+  useEffect(() => {
+    const search = document.getElementById('q') as HTMLInputElement
+    search.value = q
+  }, [q])
 
   return (
     <div className="container">
@@ -31,7 +41,9 @@ export function Root() {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  id="q"
                   name="q"
+                  defaultValue={q}
                 />
               </Form>
               <Form method="post">

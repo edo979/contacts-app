@@ -13,7 +13,7 @@ export type Contact = {
   favorite?: boolean
 }
 
-export async function getContacts(query?: string): Promise<Contact[]> {
+export async function getContacts(query: string | null): Promise<Contact[]> {
   let contacts: Contact[] | null = await localforage.getItem('contacts')
 
   if (!contacts) contacts = []
