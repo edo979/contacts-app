@@ -1,16 +1,23 @@
-import { Form, Params, useLoaderData } from 'react-router-dom'
-import { getContact, Contact as ContactType } from '../model/contacts'
+import { Form, Params, useLoaderData, useNavigation } from 'react-router-dom'
+import { getContact, Contact as ContactType, timeOut } from '../model/contacts'
 
 export async function loader({ params }: { params: Params<string> }) {
+  await timeOut()
   const contact = await getContact(params.contactId)
   return { contact }
 }
 
 export function Contact() {
   const { contact } = useLoaderData() as { contact: ContactType }
+  const navigation = useNavigation()
 
   return (
-    <section className="hstack gap-4 ms-4">
+    <section
+      className={`hstack gap-4 ms-4 ${
+        navigation.state === 'loading' && 'opacity-25'
+      }`}
+      style={{ transition: 'opacity 0.2s ease-out ' }}
+    >
       <img src={contact.avatar} className="rounded" />
       <div className="vstack justify-content-center">
         <h2 className="m-0">

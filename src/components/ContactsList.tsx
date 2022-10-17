@@ -19,7 +19,7 @@ export function ContactsList({ contacts }: ContactsListProps) {
                 isActive
                   ? (linkActivClass = 'active')
                   : isPending
-                  ? (linkActivClass = 'disabled')
+                  ? (linkActivClass = 'disabled list-group-item-secondary')
                   : ''
 
                 return `list-group-item list-group-item-action ${linkActivClass}`
