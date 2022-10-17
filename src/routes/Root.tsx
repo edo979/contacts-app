@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { NavLink, redirect, useNavigation, useSubmit } from 'react-router-dom'
 import { useLoaderData, Form, Outlet } from 'react-router-dom'
+import { ContactsList } from '../components/ContactsList'
+import { Spiner } from '../components/Spiner'
 import { createContact, getContacts, Contact, timeOut } from '../model/contacts'
 
 type LoaderData = {
@@ -44,18 +46,8 @@ export function Root() {
           <div className="search-form mt-3 pb-3 border-bottom">
             <div className="mx-3 d-flex gap-2">
               <Form role="search" className="position-relative">
-                <div
-                  className={`spinner-grow spinner-grow-sm position-absolute ${
-                    !searching && 'd-none'
-                  }`}
-                  role="status"
-                  style={{ top: '12px', left: '5px' }}
-                >
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-
                 <input
-                  className="form-control me-2 shadow-sm ps-4"
+                  className="form-control me-2 shadow-sm"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
@@ -70,6 +62,7 @@ export function Root() {
                   }}
                 />
               </Form>
+
               <Form method="post">
                 <button className="btn btn-primary shadow-sm" type="submit">
                   New
@@ -78,40 +71,10 @@ export function Root() {
             </div>
           </div>
 
-          <div className="contacts">
-            {contacts.length ? (
-              <nav className="list-group mx-3 my-3">
-                {contacts.map((contact) => (
-                  <NavLink
-                    to={`/contacts/${contact.id}`}
-                    key={contact.id}
-                    className={({ isActive, isPending }) => {
-                      let linkActivClass = ''
-                      isActive
-                        ? (linkActivClass = 'active')
-                        : isPending
-                        ? (linkActivClass = 'disabled')
-                        : ''
-
-                      return `list-group-item list-group-item-action ${linkActivClass}`
-                    }}
-                  >
-                    {contact.first || contact.last ? (
-                      <>
-                        {contact.first} {contact.last}
-                      </>
-                    ) : (
-                      <i>No Name</i>
-                    )}
-                  </NavLink>
-                ))}
-              </nav>
-            ) : (
-              <i className="mx-3 mt-3 d-block text-center">
-                No Cotacts to show
-              </i>
-            )}
+          <div className="contacts mt-3 mx-3">
+            {searching ? <Spiner /> : <ContactsList contacts={contacts} />}
           </div>
+
           <header className="mt-auto border-top py-3 d-flex align-items-center gap-3 justify-content-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
